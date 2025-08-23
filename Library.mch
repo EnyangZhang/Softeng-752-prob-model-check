@@ -17,7 +17,7 @@ INITIALISATION
  inventory:={}
 OPERATIONS
  addbook(bb) = PRE bb:BOOK & bb/:books THEN books:=books\/{bb}||inventory:=inventory <+ {bb |-> 0} END;//关于并行的constrain
- deletebook(bb) = PRE bb:BOOK & bb:books THEN books:=books-{bb}||inventory:=inventory -{bb |-> inventory(bb)} END;
+ deletebook(bb) = PRE bb:BOOK & bb:books THEN books:=books-{bb}||inventory:=inventory -{bb |-> inventory(bb)} END; // 是不是应该是 bb<: books
  addinventory(bb) = PRE bb:books THEN  inventory := inventory <+ { bb |-> inventory(bb) + 1 } END;
  addmember(mm) = PRE mm:MEMBER & mm/: members THEN members:=members\/{mm} END;
  deletemember(mm) = PRE mm:MEMBER & mm:members THEN members:=members-{mm}END
