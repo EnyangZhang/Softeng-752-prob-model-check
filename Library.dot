@@ -8,116 +8,47 @@ root -> 0 [style = dotted, color = black, label="SETUP_CONSTANTS", fontsize=12];
 
 0 -> 1 [color = "#006391", label="INITIALISATION", fontsize=12];
 
-1 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{\},\ninventory = \{\},members = \{\}"];
+1 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue = \{\},book_name = \{\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{\},inventory = \{\},\nmembers = \{\}"];
 
-1 -> 2 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-1 -> 3 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-1 -> 4 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-1 -> 5 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
+1 -> 2 [color = "#006391", label="addBookName(BOOK_NAME1)", fontsize=12];
+1 -> 3 [color = "#006391", label="addBookName(BOOK_NAME2)", fontsize=12];
 
-2 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1\},\ninventory(BOOK1) = 0,members = \{\}"];
+2 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue = \{\},book_name = \{BOOK_NAME1\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{\},inventory(BOOK_NAME1) = 0,\nmembers = \{\}"];
 
-2 -> 6 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-2 -> 1 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-2 -> 7 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-2 -> 8 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
+2 -> 4 [color = "#006391", label="addBookName(BOOK_NAME2)", fontsize=12];
+2 -> 1 [color = "#006391", label="deleteBookName(BOOK_NAME1)", fontsize=12];
+2 -> 5 [color = "#006391", label="incInventory(BOOK1,BOOK_NAME1)", fontsize=12];
+2 -> 6 [color = "#006391", label="incInventory(BOOK2,BOOK_NAME1)", fontsize=12];
 
-3 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK2\},\ninventory(BOOK2) = 0,members = \{\}"];
+3 [shape=box, color="#F4E3C1", fontsize=12, penwidth=2, label="book_catalogue = \{\},book_name = \{BOOK_NAME2\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{\},inventory(BOOK_NAME2) = 0,\nmembers = \{\}"];
 
-3 -> 6 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-3 -> 1 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-3 -> 13 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-3 -> 9 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
 
-4 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{\},\ninventory = \{\},members = \{MEMBER1\}"];
+4 [shape=box, color="#F4E3C1", fontsize=12, penwidth=2, label="book_catalogue = \{\},book_name = \{BOOK_NAME1,BOOK_NAME2\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{\},inventory(BOOK_NAME1) = 0,\ninventory(BOOK_NAME2) = 0,members = \{\}"];
 
-4 -> 7 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-4 -> 13 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-4 -> 10 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
-4 -> 1 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
 
-5 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{\},\ninventory = \{\},members = \{MEMBER2\}"];
+5 [shape=box, color="#F4E3C1", fontsize=12, penwidth=2, label="book_catalogue(BOOK1) = BOOK_NAME1,book_name = \{BOOK_NAME1\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{BOOK1\},inventory(BOOK_NAME1) = 1,\nmembers = \{\}"];
 
-5 -> 8 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-5 -> 9 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-5 -> 10 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-5 -> 1 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
 
-6 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK1) = 0,inventory(BOOK2) = 0,members = \{\}"];
+6 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue(BOOK2) = BOOK_NAME1,book_name = \{BOOK_NAME1\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{BOOK2\},inventory(BOOK_NAME1) = 1,\nmembers = \{\}"];
 
-6 -> 3 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-6 -> 2 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-6 -> 14 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-6 -> 15 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
+6 -> 7 [color = "#006391", label="addBookName(BOOK_NAME2)", fontsize=12];
+6 -> 8 [color = "#006391", label="incInventory(BOOK1,BOOK_NAME1)", fontsize=12];
 
-7 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1\},\ninventory(BOOK1) = 0,members = \{MEMBER1\}"];
+7 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue(BOOK2) = BOOK_NAME1,book_name = \{BOOK_NAME1,BOOK_NAME2\},book_status(BOOK1) = available,\nbook_status(BOOK2) = available,books = \{BOOK2\},inventory(BOOK_NAME1) = 1,\ninventory(BOOK_NAME2) = 0,members = \{\}"];
 
-7 -> 14 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-7 -> 4 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-7 -> 11 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
-7 -> 2 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
+7 -> 6 [color = "#006391", label="deleteBookName(BOOK_NAME2)", fontsize=12];
+7 -> 9 [color = "#006391", label="incInventory(BOOK1,BOOK_NAME1)", fontsize=12];
+7 -> 10 [color = "#006391", label="incInventory(BOOK1,BOOK_NAME2)", fontsize=12];
 
-8 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1\},\ninventory(BOOK1) = 0,members = \{MEMBER2\}"];
+8 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue(BOOK1) = BOOK_NAME1,book_catalogue(BOOK2) = BOOK_NAME1,book_name = \{BOOK_NAME1\},\nbook_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK_NAME1) = 2,members = \{\}"];
 
-8 -> 15 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-8 -> 5 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-8 -> 11 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-8 -> 2 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
+8 -> 9 [color = "#006391", label="addBookName(BOOK_NAME2)", fontsize=12];
 
-9 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK2\},\ninventory(BOOK2) = 0,members = \{MEMBER2\}"];
+9 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue(BOOK1) = BOOK_NAME1,book_catalogue(BOOK2) = BOOK_NAME1,book_name = \{BOOK_NAME1,BOOK_NAME2\},\nbook_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK_NAME1) = 2,inventory(BOOK_NAME2) = 0,members = \{\}"];
 
-9 -> 15 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-9 -> 5 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-9 -> 12 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-9 -> 3 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
+9 -> 8 [color = "#006391", label="deleteBookName(BOOK_NAME2)", fontsize=12];
 
-10 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{\},\ninventory = \{\},members = \{MEMBER1,MEMBER2\}"];
+10 [shape=doubleoctagon, color="#99BF38", fontsize=12, penwidth=2, label="book_catalogue(BOOK1) = BOOK_NAME2,book_catalogue(BOOK2) = BOOK_NAME1,book_name = \{BOOK_NAME1,BOOK_NAME2\},\nbook_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK_NAME1) = 1,inventory(BOOK_NAME2) = 1,members = \{\}"];
 
-10 -> 11 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-10 -> 12 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-10 -> 5 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-10 -> 4 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
-
-11 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1\},\ninventory(BOOK1) = 0,members = \{MEMBER1,MEMBER2\}"];
-
-11 -> 16 [color = "#006391", label="addbook(BOOK2)", fontsize=12];
-11 -> 10 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-11 -> 8 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-11 -> 7 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
-
-12 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK2\},\ninventory(BOOK2) = 0,members = \{MEMBER1,MEMBER2\}"];
-
-12 -> 16 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-12 -> 10 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-12 -> 9 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-12 -> 13 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
-
-13 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK2\},\ninventory(BOOK2) = 0,members = \{MEMBER1\}"];
-
-13 -> 14 [color = "#006391", label="addbook(BOOK1)", fontsize=12];
-13 -> 4 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-13 -> 12 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
-13 -> 3 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-
-14 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK1) = 0,inventory(BOOK2) = 0,members = \{MEMBER1\}"];
-
-14 -> 13 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-14 -> 7 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-14 -> 16 [color = "#006391", label="addmember(MEMBER2)", fontsize=12];
-14 -> 6 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-
-15 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK1) = 0,inventory(BOOK2) = 0,members = \{MEMBER2\}"];
-
-15 -> 9 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-15 -> 8 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-15 -> 16 [color = "#006391", label="addmember(MEMBER1)", fontsize=12];
-15 -> 6 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
-
-16 [shape=box, color="#99BF38", fontsize=12, penwidth=2, label="book_status(BOOK1) = available,book_status(BOOK2) = available,books = \{BOOK1,BOOK2\},\ninventory(BOOK1) = 0,inventory(BOOK2) = 0,members = \{MEMBER1,MEMBER2\}"];
-
-16 -> 12 [color = "#006391", label="deletebook(BOOK1)", fontsize=12];
-16 -> 11 [color = "#006391", label="deletebook(BOOK2)", fontsize=12];
-16 -> 15 [color = "#006391", label="deletemember(MEMBER1)", fontsize=12];
-16 -> 14 [color = "#006391", label="deletemember(MEMBER2)", fontsize=12];
 
 }
