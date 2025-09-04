@@ -19,7 +19,7 @@ INVARIANT
  inventory:book_name-->NAT&
  dom(inventory)=book_name&
  !(bn).(bn:dom(inventory)=>(inventory(bn)<=limit))&
- !(mm).(mm:members=>card(own_book[{mm}])<=borrow_limit)&
+ !(mm).(mm:members=>card(own_book[{mm}])+card({ bn | bn:book_name & mm : ran(waiting(bn)) })<=borrow_limit)& //waitinglist 也占用用户borrow的limit
  waiting:book_name+->seq(MEMBER)&
  dom(waiting)=book_name&
  !(bn)·(bn:book_name=>card(ran(waiting(bn))) = size(waiting(bn)))& //对每个书名 bn，等待队列 waiting(bn) 里没有重复的人。
@@ -80,8 +80,7 @@ ASSERTIONS
  !(bn).( bn : book_name => ran(waiting(bn)) <: members );
 
 /* A6 已分配（booked/borrowed）的那本书，其对应书名的等待队列里不应再包含该成员（自动出队的正确性） */
- !(bn,bb,mm).((bb |-> bn) : book_catalogue & (mm |-> bb) : own_book => mm /: ran(waiting(bn))
-)
+ !(bn,bb,mm).((bb |-> bn) : book_catalogue & (mm |-> bb) : own_book => mm /: ran(waiting(bn)))
 
 INITIALISATION
  admins:={};
@@ -134,7 +133,7 @@ OPERATIONS
  deleteAdmin(ad) = PRE ad:admins THEN admins:=admins-{ad} END;//减少管理员
 
  borrowBook(bb,bn,mm) = PRE mm:members & bb:books & (bb|->bn):book_catalogue & bn:book_name & inventory(bn)>0 THEN
-  SELECT book_status(bb)=available & card(own_book[{mm}]) < borrow_limit THEN 
+  SELECT book_status(bb)=available & card(own_book[{mm}])+card({bn1|bn1:book_name & mm:ran(waiting(bn1))}) < borrow_limit THEN 
    book_status(bb):=borrowed || inventory(bn):=inventory(bn)-1 || own_book:=own_book\/{mm|->bb}
   WHEN book_status(bb)=booked & (mm|->bb):own_book THEN 
    book_status(bb):=borrowed || inventory(bn):=inventory(bn)-1
@@ -161,7 +160,7 @@ OPERATIONS
   END
  END;//return 之后删掉拥有关系 return 也需要return 自己的书
  
- reserveBook(bb,bn,mm) = PRE mm:members & bb:books & (bb|->bn):book_catalogue & bn:book_name & book_status(bb)=available & inventory(bn)>0 & card(own_book[{mm}]) < borrow_limit THEN book_status(bb):=booked || own_book:=own_book\/{mm|->bb} END;
+ reserveBook(bb,bn,mm) = PRE mm:members & bb:books & (bb|->bn):book_catalogue & bn:book_name & book_status(bb)=available & inventory(bn)>0 & card(own_book[{mm}])+card({bn1|bn1:book_name & mm:ran(waiting(bn1))})< borrow_limit THEN book_status(bb):=booked || own_book:=own_book\/{mm|->bb} END;
 //预约书会增加预约书的关系
 
  withdrawReserveBook(bb,bn,mm) = PRE mm:members & bb:books & (bb|->bn):book_catalogue & bn:book_name & book_status(bb)=booked & inventory(bn)>0 & (mm|->bb):own_book THEN book_status(bb):=available || own_book:=own_book-{mm|->bb} ;
@@ -184,7 +183,7 @@ OPERATIONS
  END;
 //取消预定也会删除member的拥有书的关系
 
- addWaiting(bn,mm) = PRE mm : members & bn:book_name & not(#(bb).((bb|->bn):book_catalogue & book_status(bb)=available)) & card(own_book[{mm}])<borrow_limit & mm/:ran(waiting(bn)) & not( #(bb).( (mm |-> bb) : own_book & (bb |-> bn) : book_catalogue ) ) THEN waiting:=waiting<+{bn|->(waiting(bn)^[mm])} END;
+ addWaiting(bn,mm) = PRE mm : members & bn:book_name & not(#(bb).((bb|->bn):book_catalogue & book_status(bb)=available)) & card(own_book[{mm}])+card({bn1|bn1:book_name & mm:ran(waiting(bn1))})<borrow_limit & mm/:ran(waiting(bn)) & not( #(bb).( (mm |-> bb) : own_book & (bb |-> bn) : book_catalogue ) ) THEN waiting:=waiting<+{bn|->(waiting(bn)^[mm])} END;
  
  removeWaiting(bn,mm) = PRE bn:book_name & mm:members & mm:ran(waiting(bn)) THEN
   VAR x,y,s IN
