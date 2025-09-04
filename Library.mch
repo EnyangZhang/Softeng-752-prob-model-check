@@ -19,11 +19,11 @@ INVARIANT
  inventory:book_name-->NAT&
  dom(inventory)=book_name&
  !(bn).(bn:dom(inventory)=>(inventory(bn)<=limit))&
- !(mm).(mm:members=>card(own_book[{mm}])+card({ bn | bn:book_name & mm : ran(waiting(bn)) })<=borrow_limit)& //waitinglist 也占用用户borrow的limit
+ !(mm).(mm:members=>card(own_book[{mm}])+card({bn|bn:book_name&mm:ran(waiting(bn))})<=borrow_limit)& //waitinglist 也占用用户borrow的limit
  waiting:book_name+->seq(MEMBER)&
  dom(waiting)=book_name&
- !(bn)·(bn:book_name=>card(ran(waiting(bn))) = size(waiting(bn)))& //对每个书名 bn，等待队列 waiting(bn) 里没有重复的人。
- !(bn).( bn : book_name => ran(waiting(bn)) <: members ) //waiting 里只能有现有会员
+ !(bn)·(bn:book_name=>card(ran(waiting(bn)))=size(waiting(bn)))& //对每个书名 bn，等待队列 waiting(bn) 里没有重复的人。
+ !(bn).(bn:book_name=>ran(waiting(bn))<:members) //waiting 里只能有现有会员
 
 DEFINITIONS
   /* 借阅上限始终成立（把不变式写成 LTL） */
@@ -36,7 +36,6 @@ DEFINITIONS
   ASSERT_LTL3 == "G({dom(book_catalogue)=books & ran(book_catalogue) <: book_name})";
 
   /* 预定执行后：这一步把至少一本原本 available 的册子变成了 booked。 */
-//  ASSERT_LTL4 == "G([reserveBook] => X{#(mm,bb).((mm |-> bb) : own_book & book_status(bb)=booked) > 0})";
   ASSERT_LTL4 == "G([reserveBook] => BA({ card({bb | bb : books & book_status$0(bb)=available & book_status(bb)=booked}) > 0 }))";
 
   /* 借书执行后：确保这一步确实把某本从 available/booked 变为 borrowed */
@@ -151,9 +150,6 @@ OPERATIONS
      book_status(bb):=booked ;
      own_book:=own_book\/{m0|->bb} ;
      waiting:=waiting<+{bn|->rest}
-/*    ELSE
-*/     /* 队首已超额：队列保持不变，您也可改为 rest^[m0] 放队尾 */
-/*     waiting:=waiting<+{bn|->waiting(bn)}*/
     END
 
    END
@@ -183,7 +179,7 @@ OPERATIONS
  END;
 //取消预定也会删除member的拥有书的关系
 
- addWaiting(bn,mm) = PRE mm : members & bn:book_name & not(#(bb).((bb|->bn):book_catalogue & book_status(bb)=available)) & card(own_book[{mm}])+card({bn1|bn1:book_name & mm:ran(waiting(bn1))})<borrow_limit & mm/:ran(waiting(bn)) & not( #(bb).( (mm |-> bb) : own_book & (bb |-> bn) : book_catalogue ) ) THEN waiting:=waiting<+{bn|->(waiting(bn)^[mm])} END;
+ addWaiting(bn,mm) = PRE mm:members & bn:book_name & not(#(bb).((bb|->bn):book_catalogue & book_status(bb)=available)) & card(own_book[{mm}])+card({bn1|bn1:book_name & mm:ran(waiting(bn1))})<borrow_limit & mm/:ran(waiting(bn)) & not(#(bb).((mm|->bb):own_book & (bb|->bn):book_catalogue)) THEN waiting:=waiting<+{bn|->(waiting(bn)^[mm])} END;
  
  removeWaiting(bn,mm) = PRE bn:book_name & mm:members & mm:ran(waiting(bn)) THEN
   VAR x,y,s IN
